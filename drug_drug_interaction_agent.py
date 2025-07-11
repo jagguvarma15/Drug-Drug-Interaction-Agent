@@ -724,7 +724,7 @@ def summary_generation_node(state: DrugInteractionState) -> DrugInteractionState
         'final_result': summary
     }
 
-@observe_conditional("workflow_orchestration", name="Evaluation")
+@observe_conditional("workflow_orchestration", name="Evaluation Step")
 def evaluation_node(state: DrugInteractionState) -> DrugInteractionState:
     """Evaluate the analysis"""
     print("\n=== Evaluating Analysis ===")
@@ -760,7 +760,7 @@ def create_workflow() -> StateGraph:
     workflow.add_node("drug_info_retrieval", drug_info_retrieval_node)
     workflow.add_node("interaction_analysis", interaction_analysis_node)
     workflow.add_node("summary_generation", summary_generation_node)
-    workflow.add_node("evaluation", evaluation_node)
+    workflow.add_node("evaluation_step", evaluation_node)
     workflow.add_node("error", error_node)
     
     workflow.set_entry_point("input_processing")
@@ -772,8 +772,8 @@ def create_workflow() -> StateGraph:
     workflow.add_edge("drug_validation", "drug_info_retrieval")
     workflow.add_edge("drug_info_retrieval", "interaction_analysis")
     workflow.add_edge("interaction_analysis", "summary_generation")
-    workflow.add_edge("summary_generation", "evaluation")
-    workflow.add_edge("evaluation", END)
+    workflow.add_edge("summary_generation", "evaluation_step")
+    workflow.add_edge("evaluation_step", END)
     workflow.add_edge("error", END)
     
     return workflow.compile()
