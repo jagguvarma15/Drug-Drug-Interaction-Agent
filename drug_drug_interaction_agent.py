@@ -60,10 +60,13 @@ FDA_API_BASE = "https://api.fda.gov/drug"
 RXNORM_API_BASE = "https://rxnav.nlm.nih.gov/REST"
 
 # Create a conditional decorator
-def observe_conditional(span_type: str):
+def observe_conditional(span_type: str, name: str = None):
     def decorator(func):
         if judgment is not None:
-            return judgment.observe(span_type=span_type)(func)
+            if name:
+                return judgment.observe(span_type=span_type, name=name)(func)
+            else:
+                return judgment.observe(span_type=span_type)(func)
         else:
             return func
     return decorator
@@ -306,7 +309,7 @@ class DrugInteractionTools:
             print(f"Error loading sample data: {e}")
             self.collection = None
     
-    @observe_conditional("vector_search")
+    @observe_conditional("tool", name="RAG vector search")
     def search_drug_interactions_rag(self, drug1: str, drug2: str, n_results: int = 3) -> List[Dict[str, Any]]:
         """Search for drug interactions using RAG"""
         if self.collection is None:
@@ -335,7 +338,7 @@ class DrugInteractionTools:
             print(f"RAG search failed: {e}")
             return []
     
-    @observe_conditional("drug_extraction")
+    @observe_conditional("tool", name="Extract drug names")
     def extract_drug_names(self, user_input: str) -> List[str]:
         """Extract drug names from user input"""
         print(f"Extracting drugs from: {user_input}")
@@ -362,7 +365,7 @@ class DrugInteractionTools:
             print(f"Drug extraction failed: {e}")
             return []
     
-    @observe_conditional("drug_validation")
+    @observe_conditional("tool", name="RxNorm drug validation")
     def validate_drug_with_rxnorm(self, drug_name: str) -> Dict[str, Any]:
         """Validate drug name using RxNorm API"""
         print(f"Validating drug: {drug_name}")
@@ -405,7 +408,7 @@ class DrugInteractionTools:
                 'source': 'rxnorm'
             }
     
-    @observe_conditional("drug_info_retrieval")
+    @observe_conditional("tool", name="FDA drug information")
     def get_drug_info_from_fda(self, drug_name: str) -> Dict[str, Any]:
         """Get drug information from FDA API"""
         print(f"Getting FDA info for: {drug_name}")
@@ -457,7 +460,7 @@ class DrugInteractionTools:
                 'source': 'fda'
             }
     
-    @observe_conditional("interaction_analysis")
+    @observe_conditional("tool", name="Analyze drug interaction")
     def analyze_drug_interaction(self, drug1: str, drug2: str) -> Dict[str, Any]:
         """Analyze drug interaction using RAG and LLM"""
         print(f"Analyzing interaction: {drug1} + {drug2}")
@@ -538,7 +541,7 @@ class DrugInteractionTools:
                 'source': 'error'
             }
     
-    @observe_conditional("summary_generation")
+    @observe_conditional("tool", name="Generate summary")
     def generate_summary(self, state_data: Dict[str, Any]) -> str:
         """Generate concise summary of drug interaction"""
         print("Generating summary...")
@@ -630,7 +633,7 @@ class DrugInteractionTools:
 tools = DrugInteractionTools()
 
 # Workflow nodes
-@observe_conditional("workflow_orchestration")
+@observe_conditional("workflow_orchestration", name="Input processing")
 def input_processing_node(state: DrugInteractionState) -> DrugInteractionState:
     """Process user input and extract drug names"""
     print("\n=== Processing Input ===")
@@ -654,7 +657,7 @@ def input_processing_node(state: DrugInteractionState) -> DrugInteractionState:
         'drug2': extracted_drugs[1]
     }
 
-@observe_conditional("workflow_orchestration")
+@observe_conditional("workflow_orchestration", name="Drug validation")
 def drug_validation_node(state: DrugInteractionState) -> DrugInteractionState:
     """Validate drug names using RxNorm"""
     print("\n=== Validating Drugs ===")
@@ -676,7 +679,7 @@ def drug_validation_node(state: DrugInteractionState) -> DrugInteractionState:
         'validated_drugs': validated_drugs
     }
 
-@observe_conditional("workflow_orchestration")
+@observe_conditional("workflow_orchestration", name="Drug info retrieval")
 def drug_info_retrieval_node(state: DrugInteractionState) -> DrugInteractionState:
     """Retrieve drug information from FDA"""
     print("\n=== Getting Drug Info ===")
@@ -693,7 +696,7 @@ def drug_info_retrieval_node(state: DrugInteractionState) -> DrugInteractionStat
         'drug2_info': drug2_info
     }
 
-@observe_conditional("workflow_orchestration")
+@observe_conditional("workflow_orchestration", name="Interaction analysis")
 def interaction_analysis_node(state: DrugInteractionState) -> DrugInteractionState:
     """Analyze drug interactions"""
     print("\n=== Analyzing Interaction ===")
@@ -708,7 +711,7 @@ def interaction_analysis_node(state: DrugInteractionState) -> DrugInteractionSta
         'interaction_data': interaction_data
     }
 
-@observe_conditional("workflow_orchestration")
+@observe_conditional("workflow_orchestration", name="Summary generation")
 def summary_generation_node(state: DrugInteractionState) -> DrugInteractionState:
     """Generate summary"""
     print("\n=== Generating Summary ===")
@@ -721,7 +724,7 @@ def summary_generation_node(state: DrugInteractionState) -> DrugInteractionState
         'final_result': summary
     }
 
-@observe_conditional("workflow_orchestration")
+@observe_conditional("workflow_orchestration", name="Evaluation")
 def evaluation_node(state: DrugInteractionState) -> DrugInteractionState:
     """Evaluate the analysis"""
     print("\n=== Evaluating Analysis ===")
@@ -775,7 +778,7 @@ def create_workflow() -> StateGraph:
     
     return workflow.compile()
 
-@observe_conditional("agent_execution")
+@observe_conditional("agent_execution", name="drug interaction analysis")
 def drug_interaction_analysis(user_input: str) -> str:
     """Main function to analyze drug interactions"""
     print(f"\n=== Drug Interaction Analysis ===")
@@ -827,6 +830,9 @@ def drug_interaction_analysis(user_input: str) -> str:
 
 def drug_interaction_analysis_with_handler(handler, user_input: str) -> str:
     """Run analysis with judgeval handler"""
+    print(f"\n=== Drug Interaction Analysis ===")
+    print(f"Query: {user_input}")
+    
     workflow = create_workflow()
     
     initial_state = {
@@ -847,6 +853,25 @@ def drug_interaction_analysis_with_handler(handler, user_input: str) -> str:
     try:
         config_with_callbacks = {"callbacks": [handler]}
         final_state = workflow.invoke(initial_state, config=config_with_callbacks)
+        
+        if final_state.get('interaction_data'):
+            interaction = final_state['interaction_data']
+            print(f"\n=== Results ===")
+            print(f"Drugs: {interaction.get('drug1', 'N/A')} + {interaction.get('drug2', 'N/A')}")
+            print(f"Severity: {interaction.get('severity', 'N/A')}")
+            print(f"Source: {interaction.get('source', 'N/A')}")
+            
+            validated = final_state.get('validated_drugs', {})
+            if validated:
+                drug1_valid = validated.get('drug1_validation', {}).get('valid', False)
+                drug2_valid = validated.get('drug2_validation', {}).get('valid', False)
+                print(f"Validation: Drug1 {'✓' if drug1_valid else '✗'} | Drug2 {'✓' if drug2_valid else '✗'}")
+            
+            evaluation = final_state.get('evaluation', {})
+            if evaluation.get('evaluation_submitted'):
+                print(f"Evaluation: ✓ Submitted")
+            elif evaluation.get('error'):
+                print(f"Evaluation: ✗ {evaluation.get('error')}")
         
         return final_state.get('final_result', 'No result generated')
     except Exception as e:

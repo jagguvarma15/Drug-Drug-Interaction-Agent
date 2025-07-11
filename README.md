@@ -1,272 +1,151 @@
-# Drug-Drug Interaction Analysis Agent
+# Drug-Drug Interaction Agent
 
-A sophisticated AI agent that analyzes potential drug-drug interactions using multiple data sources and provides clinical recommendations. This agent integrates with **judgeval** for comprehensive tracing and evaluation.
+A simple AI agent that analyzes potential drug interactions using LangGraph workflow, RAG with ChromaDB, and external APIs (RxNorm, FDA). Includes judgeval integration for monitoring and evaluation.
 
-## 🎯 **Overview**
+## Quick Setup
 
-This agent combines:
-- **RxNorm API** for drug validation
-- **FDA API** for drug information retrieval
-- **RAG (Retrieval-Augmented Generation)** with ChromaDB for interaction database search
-- **LLM analysis** for complex interaction assessment
-- **judgeval integration** for tracing and evaluation
-
-## 🏗️ **Architecture**
-
-Built using **LangGraph** workflow orchestration with the following pipeline:
-
-```
-Input Processing → Drug Validation → FDA Info Retrieval → Interaction Analysis → Summary Generation → Evaluation
+1. **Install dependencies:**
+```bash
+#create virtual environment or simply run
+pip install -r requirements.txt
 ```
 
-## 📊 **judgeval Integration**
+2. **Set up environment variables:**
+```bash
+#  Export environment variables
+export OPENAI_API_KEY=your_openai_api_key
+export JUDGMENT_API_KEY=your_judgeval_api_key  
+export JUDGMENT_ORG_ID=your_judgeval_org_key
 
-### **Tracing Coverage**
-The agent uses multiple trace decorators to provide comprehensive monitoring:
-
-- `@observe_conditional("vector_search")` - RAG database searches
-- `@observe_conditional("drug_extraction")` - LLM drug name extraction  
-- `@observe_conditional("drug_validation")` - RxNorm API validation
-- `@observe_conditional("drug_info_retrieval")` - FDA API calls
-- `@observe_conditional("interaction_analysis")` - RAG + LLM analysis
-- `@observe_conditional("summary_generation")` - LLM summary creation
-- `@observe_conditional("workflow_orchestration")` - Workflow node execution
-- `@observe_conditional("agent_execution")` - Main agent execution
-
-### **Evaluation Scorers**
-Integrated scorers for quality assessment:
-- **Answer Relevancy Scorer** (threshold: 0.7)
-- **Instruction Adherence Scorer** (threshold: 0.7)
-
-## 🚀 **Installation**
-
-### **Prerequisites**
-- Python 3.8+
-- OpenAI API key
-- judgeval API key (optional, for evaluation features)
-
-### **Setup**
-1. **Clone or download the agent**:
-   ```bash
-   git clone <repository-url>
-   cd drug-interaction-agent
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Set environment variables**:
-   ```bash
-   export OPENAI_API_KEY="your-openai-api-key"
-   export JUDGMENT_API_KEY="your-judgeval-api-key"  # Optional
-   ```
-
-### **Dependencies**
-```txt
-langchain-openai>=0.1.0
-langgraph>=0.1.0
-chromadb>=0.4.0
-requests>=2.28.0
-judgeval>=0.1.0
 ```
 
-## 💊 **Usage**
-
-### **Interactive CLI**
+3. **Run the agent:**
 ```bash
 python drug_drug_interaction_agent.py
 ```
 
-**Example interaction**:
+## Testing the Agent
+
+### Basic Usage
+```bash
+python drug_drug_interaction_agent.py
 ```
-=== Drug-Drug Interaction Analysis ===
-Enter drug names or questions about interactions
 
-> warfarin and aspirin
+When prompted, enter drug names like:
+- `"aspirin and warfarin"`
+- `"ibuprofen and metformin"`
+- `"analyze interaction between lisinopril and hydrochlorothiazide"`
 
-=== Processing Input ===
-Extracting drugs from: warfarin and aspirin
-Extracted: ['warfarin', 'aspirin']
+### Expected Output
+The agent will:
+1. Extract drug names from your input
+2. Validate drugs using RxNorm API
+3. Get drug information from FDA API
+4. Search local database for interactions
+5. Generate AI-powered analysis
+6. Provide summary with severity and recommendations
 
-=== Validating Drugs ===
-Validating drug: warfarin
-✓ Validated: warfarin
+## Judgeval Dashboard Monitoring
+
+When judgeval is configured, you'll see these traces in your dashboard:
+
+### Main Trace
+- **"drug interaction analysis"** - Complete workflow execution
+
+### Tool Operations
+- **"Extract drug names"** - LLM-powered drug name extraction
+- **"RxNorm drug validation"** - Drug validation via RxNorm API
+- **"FDA drug information"** - Drug info retrieval from FDA API
+- **"RAG vector search"** - ChromaDB similarity search
+- **"Analyze drug interaction"** - AI-powered interaction analysis
+- **"Generate summary"** - Final summary generation
+
+### Workflow Steps
+- **"Input processing"** - Initial input handling
+- **"Drug validation"** - Validation orchestration
+- **"Drug info retrieval"** - Information gathering
+- **"Interaction analysis"** - Core analysis step
+- **"Summary generation"** - Final output creation
+- **"Evaluation"** - Result evaluation
+
+## Sample Interaction
+
+```
+> aspirin and warfarin
+
+=== Drug Interaction Analysis ===
+Query: aspirin and warfarin
+Extracting drugs from: aspirin and warfarin
+Extracted: ['aspirin', 'warfarin']
 Validating drug: aspirin
 ✓ Validated: aspirin
-
-=== Getting Drug Info ===
-Getting FDA info for: warfarin
-✓ Found FDA info: Coumadin (warfarin)
+Validating drug: warfarin
+✓ Validated: warfarin
 Getting FDA info for: aspirin
 ✓ Found FDA info: Aspirin (aspirin)
-
-=== Analyzing Interaction ===
-Analyzing interaction: warfarin + aspirin
+Getting FDA info for: warfarin
+✓ Found FDA info: Coumadin (warfarin)
+Analyzing interaction: aspirin + warfarin
 Found RAG match: MAJOR severity
 
-=== Generating Summary ===
-Generating summary...
-
-=== Evaluating Analysis ===
-Evaluating with relevancy and adherence scorers...
-✓ Evaluation submitted successfully
-
 === Results ===
-Drugs: warfarin + aspirin
+Drugs: aspirin + warfarin
 Severity: MAJOR
 Source: database
 Validation: Drug1 ✓ | Drug2 ✓
 Evaluation: ✓ Submitted
 
-The concurrent use of warfarin and aspirin presents a MAJOR drug interaction...
-
-Analysis complete!
+**MAJOR INTERACTION DETECTED**
+Drugs: aspirin + warfarin
+Severity: MAJOR
+Risk: Increased bleeding risk
+Recommendation: Monitor closely, consider alternatives
 ```
 
-### **Programmatic Usage**
-```python
-from drug_drug_interaction_agent import drug_interaction_analysis
+## What Gets Traced
 
-# Analyze drug interaction
-result = drug_interaction_analysis("What happens when I take warfarin with aspirin?")
-print(result)
-```
+- **API Calls**: RxNorm and FDA API requests
+- **LLM Usage**: Drug extraction and interaction analysis
+- **Vector Search**: ChromaDB similarity searches
+- **Workflow Execution**: Complete LangGraph workflow
+- **Tool Performance**: Individual tool execution times
+- **Error Handling**: Any failures or exceptions
 
-## 🔧 **Features**
-
-### **Core Capabilities**
-- ✅ **Multi-source validation** (RxNorm + FDA APIs)
-- ✅ **RAG-powered search** with ChromaDB vector database
-- ✅ **LLM fallback analysis** for unknown interactions
-- ✅ **JSON data support** with automatic sample data creation
-- ✅ **Comprehensive error handling** with graceful fallbacks
-- ✅ **Clean CLI interface** with status indicators
-
-### **Data Sources**
-- **RxNorm API**: Drug validation and standardization
-- **FDA API**: Official drug information and labeling
-- **Local JSON database**: Curated drug interaction data
-- **ChromaDB**: Vector similarity search for interactions
-- **GPT-4**: LLM analysis for complex cases
-
-### **judgeval Integration**
-- **Multi-level tracing**: Individual operation traces
-- **Automatic evaluation**: Answer relevancy and instruction adherence
-- **Error monitoring**: Comprehensive error tracking
-- **Performance metrics**: Response time and success rates
-
-## 📁 **Project Structure**
+## Files Structure
 
 ```
-drug-interaction-agent/
-├── drug_drug_interaction_agent.py    # Main agent code
-├── drug_interactions_data.json       # Interaction database (auto-created)
-├── chroma_db/                        # ChromaDB vector store
-├── requirements.txt                  # Python dependencies
-└── README.md                        # This file
+drug_drug_interaction_agent.py  # Main agent
+requirements.txt                # Dependencies
+README.md                      # This file
+.env                           # Environment variables
+chroma_db/                     # ChromaDB storage
+├── chroma.sqlite3       # Vector database
+drug_interactions.json     # Sample data
+example.py               # to understand about judgeval
+test_rag.py              # test chroma_db and sample data accessibility
 ```
 
-## 📈 **judgeval Dashboard**
+## Troubleshooting
 
-After running the agent, visit your judgeval dashboard to view:
+**No judgeval monitoring?**
+- Check your environment variables
+- Verify judgeval package is installed
 
-1. **Trace Timeline**: Complete workflow execution steps
-2. **LLM Calls**: Token usage and response quality
-3. **API Calls**: External service performance
-4. **Evaluation Results**: Scoring metrics and insights
-5. **Error Analysis**: Failed operations and recovery
+**API errors?**
+- Ensure `OPENAI_API_KEY` is set
+- Check internet connection for RxNorm/FDA APIs
 
-## 🔍 **Example Traces**
+**No drug database?**
+- Agent will create sample data automatically
+- Check `chroma_db/` directory is created
 
-The agent creates detailed traces for each operation:
+## Dependencies
 
-```
-Drug Interaction Analysis
-├── Input Processing (drug_extraction)
-│   └── LLM Call: Extract drug names
-├── Drug Validation (drug_validation)  
-│   ├── RxNorm API: Validate warfarin
-│   └── RxNorm API: Validate aspirin
-├── FDA Info Retrieval (drug_info_retrieval)
-│   ├── FDA API: Get warfarin info
-│   └── FDA API: Get aspirin info
-├── Interaction Analysis (interaction_analysis)
-│   ├── Vector Search: ChromaDB query
-│   └── LLM Call: Analyze interaction
-├── Summary Generation (summary_generation)
-│   └── LLM Call: Generate summary
-└── Evaluation
-    ├── Answer Relevancy Score: 0.85
-    └── Instruction Adherence Score: 0.92
-```
+- **langchain-openai**: LLM integration
+- **langgraph**: Workflow orchestration  
+- **chromadb**: Vector database
+- **requests**: API calls
+- **judgeval**: Monitoring and evaluation
 
-## 🚨 **Safety Notice**
-
-⚠️ **This agent is for educational and research purposes only. Always consult healthcare professionals for medical decisions.**
-
-## 🛠️ **Development Notes**
-
-### **Extending the Agent**
-- Add new data sources by implementing additional API clients
-- Enhance interaction analysis with more sophisticated algorithms
-- Integrate additional evaluation metrics
-- Add support for more drug databases
-
-### **Configuration**
-The agent supports various configuration options:
-- Custom API endpoints
-- Adjustable similarity thresholds
-- Configurable evaluation criteria
-- Custom data sources
-
-## 🐛 **judgeval SDK Feedback**
-
-During development, I identified several areas for improvement in the judgeval SDK:
-
-### **Issues Identified**
-1. **Documentation Gaps**:
-   - Missing examples for LangGraph integration patterns
-   - Unclear conditional decorator usage documentation
-   - Limited guidance on multi-level tracing strategies
-
-2. **Feature Requests**:
-   - Better support for optional tracing (graceful degradation)
-   - Batch evaluation APIs for multiple test cases
-   - Custom scorer creation documentation
-
-3. **SDK Improvements**:
-   - More granular control over trace collection
-   - Better error handling for SDK initialization failures
-   - Async tracing support for better performance
-
-### **Suggested Improvements**
-- [ ] Add cookbook example for conditional tracing patterns
-- [ ] Include LangGraph-specific integration guide
-- [ ] Provide templates for common agent architectures
-- [ ] Add performance optimization guidelines
-
-## 🤝 **Contributing**
-
-Feel free to contribute by:
-1. Adding new drug interaction data sources
-2. Improving the interaction analysis algorithms
-3. Enhancing the evaluation metrics
-4. Reporting bugs or suggesting features
-
-## 📄 **License**
-
-This project is licensed under the MIT License.
-
-## 🔗 **Links**
-
-- [judgeval Documentation](https://docs.judgeval.com)
-- [judgeval GitHub](https://github.com/judgeval/judgeval)
-- [RxNorm API Documentation](https://lhncbc.nlm.nih.gov/RxNav/APIs/)
-- [FDA API Documentation](https://open.fda.gov/apis/)
-- [LangGraph Documentation](https://python.langchain.com/docs/langgraph)
-
----
-
-**Built with ❤️ using judgeval for comprehensive AI agent monitoring and evaluation** 
+Run `pip install -r requirements.txt` to install all dependencies. 
+Built with curiosity using judgeval for comprehensive AI agent monitoring and evaluation!
