@@ -148,4 +148,5 @@ test_rag.py              # test chroma_db and sample data accessibility
 - **judgeval**: Monitoring and evaluation
 
 Run `pip install -r requirements.txt` to install all dependencies. 
-Built with curiosity using judgeval for comprehensive AI agent monitoring and evaluation!
+
+**Thank You for viewing my work. Built with curiosity using judgeval for comprehensive AI agent monitoring and evaluation!**
