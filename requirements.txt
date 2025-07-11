@@ -1,0 +1,13 @@
+# Core dependencies
+langchain-openai
+langgraph
+chromadb
+requests
+
+# judgeval for tracing and evaluation
+judgeval
+
+# Additional dependencies
+openai
+typing-extensions
+pydantic

@@ -1,0 +1,296 @@
+{
+  "drug_interactions": [
+    {
+      "id": 1,
+      "drug1": "warfarin",
+      "drug2": "aspirin",
+      "severity": "MAJOR",
+      "description": "Increased bleeding risk due to anticoagulant and antiplatelet effects",
+      "mechanism": "Warfarin inhibits vitamin K synthesis, aspirin inhibits platelet aggregation",
+      "recommendation": "Avoid combination. If necessary, monitor INR closely and watch for bleeding signs",
+      "clinical_evidence": "Multiple studies show 2-3x increased bleeding risk",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 2,
+      "drug1": "lisinopril",
+      "drug2": "ibuprofen",
+      "severity": "MODERATE",
+      "description": "Reduced ACE inhibitor effectiveness and increased kidney damage risk",
+      "mechanism": "NSAIDs can reduce ACE inhibitor antihypertensive effects and cause kidney toxicity",
+      "recommendation": "Monitor blood pressure and kidney function if used together",
+      "clinical_evidence": "Studies show 10-15% reduction in antihypertensive effect",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 3,
+      "drug1": "metformin",
+      "drug2": "alcohol",
+      "severity": "MODERATE",
+      "description": "Increased risk of lactic acidosis",
+      "mechanism": "Alcohol can impair lactate metabolism while metformin increases lactate production",
+      "recommendation": "Limit alcohol consumption, especially with kidney or liver problems",
+      "clinical_evidence": "Case reports of lactic acidosis with heavy alcohol use",
+      "source": "case_reports"
+    },
+    {
+      "id": 4,
+      "drug1": "simvastatin",
+      "drug2": "grapefruit",
+      "severity": "MAJOR",
+      "description": "Dramatically increased statin levels leading to muscle toxicity risk",
+      "mechanism": "Grapefruit inhibits CYP3A4 enzyme that metabolizes simvastatin",
+      "recommendation": "Avoid grapefruit juice completely while taking simvastatin",
+      "clinical_evidence": "Can increase simvastatin levels by 7-16 fold",
+      "source": "pharmacokinetic_studies"
+    },
+    {
+      "id": 5,
+      "drug1": "digoxin",
+      "drug2": "furosemide",
+      "severity": "MODERATE",
+      "description": "Increased digoxin toxicity risk due to potassium depletion",
+      "mechanism": "Furosemide causes potassium loss, low potassium increases digoxin toxicity",
+      "recommendation": "Monitor potassium levels and digoxin blood levels regularly",
+      "clinical_evidence": "Hypokalemia increases digoxin binding to cardiac receptors",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 6,
+      "drug1": "lithium",
+      "drug2": "hydrochlorothiazide",
+      "severity": "MAJOR",
+      "description": "Increased lithium levels leading to toxicity",
+      "mechanism": "Thiazide diuretics reduce lithium clearance by the kidneys",
+      "recommendation": "Monitor lithium levels closely, may need dose reduction",
+      "clinical_evidence": "Can increase lithium levels by 40-60%",
+      "source": "pharmacokinetic_studies"
+    },
+    {
+      "id": 7,
+      "drug1": "phenytoin",
+      "drug2": "fluconazole",
+      "severity": "MAJOR",
+      "description": "Increased phenytoin levels causing toxicity",
+      "mechanism": "Fluconazole inhibits CYP2C9 enzyme that metabolizes phenytoin",
+      "recommendation": "Monitor phenytoin levels, reduce dose if necessary",
+      "clinical_evidence": "Can increase phenytoin levels by 75-100%",
+      "source": "pharmacokinetic_studies"
+    },
+    {
+      "id": 8,
+      "drug1": "theophylline",
+      "drug2": "ciprofloxacin",
+      "severity": "MAJOR",
+      "description": "Increased theophylline levels causing toxicity",
+      "mechanism": "Ciprofloxacin inhibits CYP1A2 enzyme that metabolizes theophylline",
+      "recommendation": "Monitor theophylline levels, reduce dose by 30-50%",
+      "clinical_evidence": "Can increase theophylline levels by 30-70%",
+      "source": "pharmacokinetic_studies"
+    },
+    {
+      "id": 9,
+      "drug1": "cyclosporine",
+      "drug2": "ketoconazole",
+      "severity": "MAJOR",
+      "description": "Increased cyclosporine levels leading to nephrotoxicity",
+      "mechanism": "Ketoconazole inhibits CYP3A4 enzyme that metabolizes cyclosporine",
+      "recommendation": "Monitor cyclosporine levels closely, reduce dose",
+      "clinical_evidence": "Can increase cyclosporine levels by 3-5 fold",
+      "source": "pharmacokinetic_studies"
+    },
+    {
+      "id": 10,
+      "drug1": "amiodarone",
+      "drug2": "warfarin",
+      "severity": "MAJOR",
+      "description": "Increased bleeding risk due to enhanced anticoagulation",
+      "mechanism": "Amiodarone inhibits warfarin metabolism and displaces protein binding",
+      "recommendation": "Reduce warfarin dose by 30-50%, monitor INR frequently",
+      "clinical_evidence": "Can increase warfarin effect by 50-100%",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 11,
+      "drug1": "carbamazepine",
+      "drug2": "oral_contraceptives",
+      "severity": "MODERATE",
+      "description": "Reduced contraceptive effectiveness",
+      "mechanism": "Carbamazepine induces CYP3A4 enzyme, increasing estrogen metabolism",
+      "recommendation": "Use alternative contraception methods",
+      "clinical_evidence": "Can reduce contraceptive efficacy by 40-50%",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 12,
+      "drug1": "atorvastatin",
+      "drug2": "clarithromycin",
+      "severity": "MODERATE",
+      "description": "Increased risk of muscle toxicity (rhabdomyolysis)",
+      "mechanism": "Clarithromycin inhibits CYP3A4 enzyme that metabolizes atorvastatin",
+      "recommendation": "Temporarily discontinue statin or use azithromycin instead",
+      "clinical_evidence": "Can increase atorvastatin levels by 4-6 fold",
+      "source": "pharmacokinetic_studies"
+    },
+    {
+      "id": 13,
+      "drug1": "sildenafil",
+      "drug2": "nitroglycerin",
+      "severity": "MAJOR",
+      "description": "Severe hypotension due to additive vasodilation",
+      "mechanism": "Both drugs cause vasodilation through different pathways",
+      "recommendation": "Contraindicated - do not use together",
+      "clinical_evidence": "Can cause life-threatening hypotension",
+      "source": "clinical_trials"
+    },
+    {
+      "id": 14,
+      "drug1": "tramadol",
+      "drug2": "sertraline",
+      "severity": "MODERATE",
+      "description": "Increased risk of serotonin syndrome",
+      "mechanism": "Both drugs increase serotonin levels through different mechanisms",
+      "recommendation": "Monitor for serotonin syndrome symptoms, consider alternatives",
+      "clinical_evidence": "Case reports of serotonin syndrome",
+      "source": "case_reports"
+    },
+    {
+      "id": 15,
+      "drug1": "metoprolol",
+      "drug2": "verapamil",
+      "severity": "MODERATE",
+      "description": "Increased risk of bradycardia and heart block",
+      "mechanism": "Both drugs slow heart rate through different mechanisms",
+      "recommendation": "Monitor heart rate and blood pressure closely",
+      "clinical_evidence": "Can cause significant bradycardia",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 16,
+      "drug1": "allopurinol",
+      "drug2": "azathioprine",
+      "severity": "MAJOR",
+      "description": "Increased risk of severe bone marrow toxicity",
+      "mechanism": "Allopurinol inhibits xanthine oxidase, reducing azathioprine metabolism",
+      "recommendation": "Reduce azathioprine dose to 25% of normal dose",
+      "clinical_evidence": "Can increase azathioprine toxicity by 3-4 fold",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 17,
+      "drug1": "prednisone",
+      "drug2": "ibuprofen",
+      "severity": "MODERATE",
+      "description": "Increased risk of gastrointestinal bleeding and ulcers",
+      "mechanism": "Both drugs can cause gastric irritation and bleeding",
+      "recommendation": "Use gastroprotective agents, monitor for GI symptoms",
+      "clinical_evidence": "2-3x increased risk of GI bleeding",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 18,
+      "drug1": "insulin",
+      "drug2": "propranolol",
+      "severity": "MODERATE",
+      "description": "Masked hypoglycemia symptoms and prolonged hypoglycemia",
+      "mechanism": "Beta-blockers mask tachycardia and delay glucose recovery",
+      "recommendation": "Monitor blood glucose more frequently, patient education",
+      "clinical_evidence": "Can mask warning signs of hypoglycemia",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 19,
+      "drug1": "omeprazole",
+      "drug2": "clopidogrel",
+      "severity": "MODERATE",
+      "description": "Reduced antiplatelet effect of clopidogrel",
+      "mechanism": "Omeprazole inhibits CYP2C19 enzyme needed for clopidogrel activation",
+      "recommendation": "Use pantoprazole instead of omeprazole if PPI needed",
+      "clinical_evidence": "Can reduce clopidogrel effectiveness by 20-40%",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 20,
+      "drug1": "levothyroxine",
+      "drug2": "calcium_carbonate",
+      "severity": "MINOR",
+      "description": "Reduced absorption of levothyroxine",
+      "mechanism": "Calcium binds to levothyroxine in the gut, reducing absorption",
+      "recommendation": "Separate administration by at least 4 hours",
+      "clinical_evidence": "Can reduce levothyroxine absorption by 20-30%",
+      "source": "pharmacokinetic_studies"
+    },
+    {
+      "id": 21,
+      "drug1": "tetracycline",
+      "drug2": "iron_sulfate",
+      "severity": "MODERATE",
+      "description": "Reduced absorption of both medications",
+      "mechanism": "Iron chelates with tetracycline, forming insoluble complexes",
+      "recommendation": "Separate administration by at least 2 hours",
+      "clinical_evidence": "Can reduce tetracycline absorption by 50-80%",
+      "source": "pharmacokinetic_studies"
+    },
+    {
+      "id": 22,
+      "drug1": "quinidine",
+      "drug2": "digoxin",
+      "severity": "MAJOR",
+      "description": "Increased digoxin levels leading to toxicity",
+      "mechanism": "Quinidine displaces digoxin from tissue binding and reduces renal clearance",
+      "recommendation": "Reduce digoxin dose by 50%, monitor levels closely",
+      "clinical_evidence": "Can double digoxin serum levels",
+      "source": "pharmacokinetic_studies"
+    },
+    {
+      "id": 23,
+      "drug1": "rifampin",
+      "drug2": "oral_contraceptives",
+      "severity": "MODERATE",
+      "description": "Reduced contraceptive effectiveness",
+      "mechanism": "Rifampin strongly induces CYP3A4, increasing estrogen metabolism",
+      "recommendation": "Use alternative contraception methods during and after treatment",
+      "clinical_evidence": "Can reduce contraceptive efficacy significantly",
+      "source": "clinical_studies"
+    },
+    {
+      "id": 24,
+      "drug1": "heparin",
+      "drug2": "aspirin",
+      "severity": "MAJOR",
+      "description": "Increased bleeding risk due to dual anticoagulation",
+      "mechanism": "Both drugs affect different aspects of coagulation cascade",
+      "recommendation": "Monitor for bleeding, use lower doses if combination necessary",
+      "clinical_evidence": "Significantly increased bleeding risk",
+      "source": "clinical_trials"
+    },
+    {
+      "id": 25,
+      "drug1": "acetaminophen",
+      "drug2": "alcohol",
+      "severity": "MODERATE",
+      "description": "Increased risk of liver toxicity",
+      "mechanism": "Alcohol induces CYP2E1 enzyme, increasing toxic acetaminophen metabolites",
+      "recommendation": "Limit alcohol consumption, avoid chronic heavy drinking",
+      "clinical_evidence": "Increased hepatotoxicity with chronic alcohol use",
+      "source": "clinical_studies"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created_date": "2024-01-15",
+    "total_interactions": 25,
+    "severity_distribution": {
+      "MAJOR": 12,
+      "MODERATE": 12,
+      "MINOR": 1
+    },
+    "source_types": [
+      "clinical_studies",
+      "pharmacokinetic_studies", 
+      "clinical_trials",
+      "case_reports"
+    ],
+    "description": "Comprehensive drug-drug interaction database with clinical evidence and recommendations"
+  }
+} 
